@@ -1,0 +1,540 @@
+What is Pandas?
+Pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool, built on top of the Python programming language.
+
+There are two data structures in Pandas:
+1) Series
+2) DataFrame
+
+let's start with Series:
+Pandas Series is like a column in a table. It's like a one-dimensional array like object containing sequence of values.
+
+To work with pandas first we need to import libraries needed
+# Importing Pandas & NumPy
+import numpy as np
+import pandas as pd
+
+
+Let's check different ways to create Panda Series
+1) From a list:
+
+# String ---> most of the time dytpe of string is object
+country = ['Pakistan', 'India', 'Usa', 'Korea', 'Japan']
+pd.Series(country)
+
+Seires have index on the left and the values on the right.
+
+
+# Integer
+runs [30,50,87,10,1,90]
+pd.Series(runs)
+
+
+We can override default index also
+# Custom index
+marks = [99,97,98,95,97]
+courses = ['Financial Accounting','Linear Algebra','Data Structures & Algorithms','App of ICT','OOP LAB']
+pd.Series(marks, index = courses)
+
+There are two attributes, which you can use to give name to your panda series object and to your pandas series index.
+marks = pd.Series(marks, index=courses, name= 'Shehraz Marks')
+marks.index.name = 'Courses'
+marks
+
+2) From a dict: keys = index
+
+marks = {
+    'Eng' : 87,
+    'Maths' : 97,
+    'Science' : 76
+}
+
+marks_series = pd.Series(marks,name = 'Shehraz Marks')
+marks_series
+
+
+3) Series Attributes: now let's check some of the attributes of the panda series.
+
+# size ---> total no of values
+marks_series.size # 3
+
+# dtype ---> data type of all values in a series
+marks_series.dtype # dtype('int64')
+
+# name ----> return name of the Series
+marks_series.name
+
+# index ----> return index object of the Series having index values
+marks_series.index
+
+# index will return RangeIndex object for default indexing 
+runs.index # RangeIndex(start=0, stop=7, step=1)
+
+# values ----> return values of the Series
+marks_series.values
+
+# index.name ----> return name of the index of the Series
+marks_series.index.name = 'Courses'
+marks_series.index.name   # 'Courses'
+
+# is_unique -----> return True if all values are unique otherwise False
+marks_series.is_unique # True
+pd.Series([1,1,2,3,5]).is_unique # False
+
+
+4) Series using read_csv: Inorder to read csv file we use this method pd.read_csv(), by default it's data type is pandas DataFrame object not Series.
+
+# with 1 column
+For Series ---> set method squeeze = True
+subs = pd.read_csv('datasets-session-16\\subs.csv').squeeze(True)
+subs
+
+0       48
+1       57
+2       40
+3       43
+4       44
+      ... 
+360    231
+361    226
+362    155
+363    144
+364    172
+Name: Subscribers gained, Length: 365, dtype: int64
+
+.squeeze() is a method of the DataFrame and Series objects in pandas.
+
+How it works:
+On a DataFrame, it removes axes of length 1 (i.e., collapses it to a Series if possible).
+On a Series, it returns the same Series (since it's already 1D).
+
+
+# with 2 columns
+virat_runs = pd.read_csv('datasets-session-16\\kohli_ipl.csv',index_col = 'match_no').squeeze(True)
+virat_runs
+
+match_no
+1       1
+2      23
+3      13
+4      12
+5       1
+       ..
+211     0
+212    20
+213    73
+214    25
+215     7
+Name: runs, Length: 215, dtype: int64
+
+# with 2 columns
+movies = pd.read_csv('datasets-session-16\\bollywood.csv',index_col = 'movie').squeeze(True)
+movies
+
+movie
+Uri: The Surgical Strike                   Vicky Kaushal
+Battalion 609                                Vicky Ahuja
+The Accidental Prime Minister (film)         Anupam Kher
+Why Cheat India                            Emraan Hashmi
+Evening Shadows                         Mona Ambegaonkar
+                                              ...       
+Hum Tumhare Hain Sanam                    Shah Rukh Khan
+Aankhen (2002 film)                     Amitabh Bachchan
+Saathiya (film)                             Vivek Oberoi
+Company (film)                                Ajay Devgn
+Awara Paagal Deewana                        Akshay Kumar
+Name: lead, Length: 1500, dtype: object
+
+
+5) Series Methods: so let's discuss about some methods
+
+# head() --> by default it returns first 5 data
+# head(10) ---> we can pass any no of values if we want like first 10 pass 10
+
+subs.head()
+
+0    48
+1    57
+2    40
+3    43
+4    44
+Name: Subscribers gained, dtype: int64
+
+virat_runs.head(3)
+
+match_no
+1     1
+2    23
+3    13
+Name: runs, dtype: int64
+
+# tail() ---> by default it returns last 5 data
+# tail(10) ---> we can pass any no of values if we want like last 10 pass 10
+virat_runs.tail()
+
+match_no
+211     0
+212    20
+213    73
+214    25
+215     7
+Name: runs, dtype: int64
+
+virat_runs.tail(10)
+
+match_no
+206     0
+207     0
+208     9
+209    58
+210    30
+211     0
+212    20
+213    73
+214    25
+215     7
+Name: runs, dtype: int64
+
+# sample() ----> by default randomly return any one data
+# sample(5) ----> if you want 5 random data pass 5 and whatever you want
+movies.sample()
+
+movie
+Saankal    Tanima Bhattacharya
+Name: lead, dtype: object
+
+movies.sample(5)
+
+movie
+Daawat-e-Ishq      Aditya Roy Kapoor
+Masaan                  Richa Chadha
+The Shaukeens           Akshay Kumar
+My Friend Pinto              Prateik
+Mad About Dance          Saahil Prem
+Name: lead, dtype: object
+
+# value_counts() ----> very useful and important method
+# This returns the frequency (count) of unique values in a Series,
+# i.e., how many times each unique value appears.
+# The result is sorted in descending order by default (most frequent first).
+movies.value_counts(ascending = True)
+
+lead
+Sharib Hashmi        1
+Ravi Kishan          1
+Sagar Bhangade       1
+Harish Chabbra       1
+Bidita Bag           1
+                    ..
+Sanjay Dutt         26
+Salman Khan         31
+Ajay Devgn          38
+Amitabh Bachchan    45
+Akshay Kumar        48
+Name: count, Length: 566, dtype: int64
+
+# sort_values() it will sort the values in ascending order
+# sort_values(ascending = False) it will now sort in descending order
+
+virat_runs.sort_values(ascending = False)
+
+match_no
+128    113
+126    109
+123    108
+164    100
+120    100
+      ... 
+93       0
+211      0
+130      0
+8        0
+135      0
+Name: runs, Length: 215, dtype: int64
+
+For example take real world example:
+if i wanted to fatch the maximum score of the player virat
+what i can do is ---> apply method chaining
+virat_runs.sort_values(ascending = False).head(1).values[0] # Output -> 113
+
+firt i sort the values in descending order by passing ascending = False
+second i apply head(1) because i want only his maximum score which is stored in first row
+third i apply .values which is attribute to fatch only values as ndarray 
+now i have an numpy array so i can use indexing so there is only one value so i give index 0
+
+so far we haven't make any permanent changes to the data so if you wanted to make permanent changes
+# for permanent changes
+virat_runs = virat_runs.sort_values()
+virat_runs
+
+
+# sort_index() it will sort index in ascending order
+# sort_index(ascending = False) # it will now sort in descending order
+movies.sort_index()
+
+movie
+1920 (film)                   Rajniesh Duggall
+1920: London                     Sharman Joshi
+1920: The Evil Returns             Vicky Ahuja
+1971 (2007 film)                Manoj Bajpayee
+2 States (2014 film)              Arjun Kapoor
+                                   ...        
+Zindagi 50-50                      Veena Malik
+Zindagi Na Milegi Dobara        Hrithik Roshan
+Zindagi Tere Naam           Mithun Chakraborty
+Zokkomon                       Darsheel Safary
+Zor Lagaa Ke...Haiya!            Meghan Jadhav
+Name: lead, Length: 1500, dtype: object
+
+6) Series Mathematical methods: let's discuss some series maths methods
+
+# count same like size attribute but it will not count the missing values where as size count every value
+virat_runs.count() # 215
+
+# sum and product
+print(subs.sum()) # sum of all values 49510
+print(subs.product()) # zero because of zero value or maybe because of huge integer value
+
+# mean, median, mode, std, var
+print(virat_runs.mean()) # 30.855813953488372
+print(subs.median()) # 123.0
+
+print(movies.mode()) 
+# 0    Akshay Kumar
+# Name: lead, dtype: object
+
+print(subs.std()) # 62.67502303725269
+print(virat_runs.var()) # 688.0024777222344
+
+# min, max
+print(virat_runs.min()) # 0
+print(subs.max()) # 396
+
+
+# describe ---> gives statistical summery all at once
+virat_runs.describe()
+
+count    215.000000
+mean      30.855814
+std       26.229801
+min        0.000000
+25%        9.000000
+50%       24.000000
+75%       48.000000
+max      113.000000
+Name: runs, dtype: float64
+
+7) Series Indexing:
+
+# integer postive indexing
+x = pd.Series([1,23,231,54,4,10])
+x[3] # 54
+
+# negative indexing incase of non-custom indexing will through a KeyError
+x[-1] # not allowed on non-custom indexing
+
+
+# integer indexing not works on custom indexing having index type other than integer
+movie[1] # not allowed
+
+# We can use iloc[] which provide integer based indexing even if the indexing is of type string or any other
+movies.iloc[0] # 'Vicky Kaushal'
+# Similarly we can use negative indexing with the help of iloc[]
+
+# string indexing same like dict key
+movies['Uri: The Surgical Strike'] # 'Vicky Kaushal'
+
+# fancy indexing
+virat_runs[[1,3,4,5]]
+
+match_no
+1     1
+3    13
+4    12
+5     1
+Name: runs, dtype: int64
+
+
+8) Series Slicing: 
+
+# Positive Slicing (works on both custom indexes and on integer based also)
+virat_runs[5:16]
+
+# Negative Slicing (works on both custom indexes and on integer based also)
+movies[-5:] 
+movies[::2]
+
+Slicing is same like we do in numpy or in lists
+
+
+8) Editing Series:
+
+# work on default indexing only
+x = pd.Series([1,23,231,54,4,10])
+x[3] = 55
+x
+
+0      1
+1     23
+2    231
+3     55
+4      4
+5     10
+dtype: int64
+
+
+# if indexing is custom we need to use iloc for assignment for integer based indexing
+marks_series.iloc[2] = 84
+marks_series
+
+Courses
+Eng        87
+Maths      99
+Science    84
+Name: Shehraz Marks, dtype: int64
+
+# what if an index doesn't exist?
+marks_series['FAP'] = 99 # works like the dict --> it will append this as new item
+marks_series
+
+Courses
+Eng        87
+Maths      99
+Science    84
+FAP        99
+Name: Shehraz Marks, dtype: int64
+
+# Slicing
+runs[2:4] = [100,200]
+runs
+
+0     13
+1     50
+2    100
+3    200
+4    120
+5     50
+6     30
+dtype: int64
+
+
+# Fancy indexing
+runs[[0,2,3]] = [0,0,0]
+runs
+
+0      0
+1     50
+2      0
+3      0
+4    120
+5     50
+6     30
+dtype: int64
+
+9) Series with Python Functionalities
+
+# len/type/dir/sorted/max/min
+print(len(subs))
+print(type(subs))
+# print(dir(subs))
+print(sorted(marks_series))
+print(max(subs))
+print(min(subs))
+
+365
+<class 'pandas.core.series.Series'>
+[84, 87, 99, 99]
+396
+33
+
+
+# type conversion
+print(list(marks_series))
+print(dict(marks_series))
+
+[87, 99, 84, 99]
+{'Eng': 87, 'Maths': 99, 'Science': 84, 'FAP': 99}
+
+# membership operator
+# by default it will search in index
+'Bajrangi Bhaijaan' in movies # True
+
+# for values
+'Salman Khan' in movies.values # True
+
+# looping
+for i in marks_series:
+    print(i)
+
+87
+99
+84
+99
+
+in looping it will loop on values by default
+
+# for index
+
+for i in marks_series.index:
+    print(i)
+
+Eng
+Maths
+Science
+FAP
+
+# Arithmetic Operators (all will work) (boradcasting)
+100 - marks_series # checking how many marks left to reach 100 in each
+
+Eng        13
+Maths       1
+Science    16
+FAP         1
+Name: Shehraz Marks, dtype: int64
+
+# Relational Operators (all will work)
+virat_runs > 50 # Give us boolean series just like in numpy it gives us boolean array
+
+match_no
+1      False
+2      False
+3      False
+4      False
+5      False
+       ...  
+211    False
+212    False
+213     True
+214    False
+215    False
+Name: runs, Length: 215, dtype: bool
+
+10) Boolean Indexing:
+
+# Find the no of 50's and 100's scored by kholi
+virat_runs[virat_runs >= 50].size  # 50
+
+
+# Find no of ducks (zeros)
+virat_runs[virat_runs == 0].size   # 9
+
+# Count no of days when he had more than 200 subs a day
+subs[subs > 200].size   # 59
+
+# Find actors who have done more 20 movies
+# first lets find each actor counts
+movies_count = movies.value_counts()
+movies_count[movies_count > 20]
+
+lead
+Akshay Kumar        48
+Amitabh Bachchan    45
+Ajay Devgn          38
+Salman Khan         31
+Sanjay Dutt         26
+Shah Rukh Khan      22
+Emraan Hashmi       21
+Name: count, dtype: int64
+
+
+
+
