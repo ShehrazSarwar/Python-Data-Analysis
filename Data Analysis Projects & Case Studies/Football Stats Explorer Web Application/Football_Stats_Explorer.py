@@ -26,7 +26,6 @@ def load_data(year):
     return playerstats
 
 playerstats = load_data(selected_year)
-print(playerstats)
 
 sorted_unique_team = sorted(playerstats.Team.unique())
 selected_team = st.sidebar.multiselect('Team', sorted_unique_team, sorted_unique_team)
