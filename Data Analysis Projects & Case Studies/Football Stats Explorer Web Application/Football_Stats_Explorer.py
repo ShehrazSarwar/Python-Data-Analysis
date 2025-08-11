@@ -41,8 +41,7 @@ st.write('Data Dimension: ' + str(df_selected_team.shape[0]) + ' rows and ' + st
 st.dataframe(df_selected_team)
 
 if st.download_button(data = df_selected_team.to_csv(index=False),label='Download CSV File',file_name=f'NFL{selected_year}.csv'):
-    st.balloons()
-    st.success('Thanks for using our NFL Football Stats Explorer 🤗')
+    st.success('Thank You for using NFL Football Stats Explorer 🤗')
 
 cols = st.columns(3)
 with cols[0]:
