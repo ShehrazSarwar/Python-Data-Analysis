@@ -163,7 +163,7 @@ if uploaded_zip is not None:
                     st.error("❌ The uploaded ZIP file appears to be empty.")
                     st.stop()
                 
-                top_folder = file_list[0].split('/')[0]
+                top_folder = str(uploaded_zip)
 
                 # Extract username between "instagram-" and "-YYYY-MM-DD"
                 match = re.search(r"instagram-(.+?)-\d{4}-\d{2}-\d{2}", top_folder)
@@ -185,7 +185,7 @@ if uploaded_zip is not None:
                 st.stop()
 
             # Target inbox path
-            inbox_path_prefix = f"{top_folder}/your_instagram_activity/messages/inbox/"
+            inbox_path_prefix = "your_instagram_activity/messages/inbox/"
 
             # Collect all `message_1.json` files in subfolders
             message_jsons = []
@@ -297,7 +297,7 @@ if uploaded_zip is not None:
 
             # Process story interactions
             story_likes = None
-            story_path = f"{top_folder}/your_instagram_activity/story_interactions/"
+            story_path = "your_instagram_activity/story_interactions/"
             
             try:
                 for file_name in z.namelist():
@@ -336,7 +336,7 @@ if uploaded_zip is not None:
                 logger.warning(f"Error processing story data: {e}")
                 
             # Process followers and following data
-            new_path = f"{top_folder}/connections/followers_and_following/"
+            new_path = "connections/followers_and_following/"
             followers = []
             followings = {"relationships_following": []}
             close_friends = {"relationships_close_friends": []}
