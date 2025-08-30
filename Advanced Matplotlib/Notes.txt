@@ -1,0 +1,77 @@
+- 2D Line Plot: For Bivariate Analysis
+
+plt.plot(x,y)
+plt.ylabel('')
+plt.xlabel('')
+plt.title('')
+plt.grid()
+plt.show()
+plt.xlim(val,val)
+plt.ylim(val,val)
+plt.legend()
+
+for line plot:
+we have hidden parameters:
+linestyle ---> dotted, dashdot, solid etc
+linewidth ---> single integer
+
+multiple lines plot:
+plt.plot(x,y)
+plt.plot(x,y) X-Axis Col should be same
+
+- for all:
+color --> hex or color ---> string
+markersize ---> single integer
+marker ---> 'D','o', '.' etc
+label ---> work only when this method called: plt.legend(loc='best')
+
+
+- Scatter plot: For Bivariate and Multivariate (all numerical)
+plt.scatter(x,y)
+
+parameters:
+s= column for size
+c= column for color --> alpha for opacity control (in float or int)
+cmap = 'String' for adding different color styles
+both are used to show the relation in data better
+plt.colorbar()
+
+plt.axhline(val,color='any') & plt.axvline(val,color='any')
+
+- for adding text annotations(for all plots):
+plt.text(xdim, ydim, s = string column)
+fontdict = {family: '', color: '',size: }) used in title, xlabel and text
+
+
+- Bar Chart: for Bivariate Analysis
+plt.bar(x,y)
+plt.barh(x,y) for horizontal bar char
+same parameters like color etc
+can pass list in color also for setting color of each bar
+
+- plt.xticks() for all plots ---> changing x-axis labels name and rotation
+
+Stacked Barchat:
+plt.bar(x,y)
+plt.bar(x,y, bottom = upper bar y column)
+plt.bar(x,y, bottom = sum of all upper bar y columns)
+define labels for charts for better understanding 
+
+
+Multiple barchart at once:
+x = np.arange(len(df)) define x axis using array np.arange method(using lenght of df)
+use width small like 0.2 for better visibility
+plt.bar(x - 0.2,df['2015'], width = 0.2,label='2015')
+plt.bar(x ,df['2016'],width = 0.2,label='2016')
+plt.bar(x + 0.2,df['2017'],width = 0.2,label='2017')
+plt.xticks(x, df['batsman'])
+plt.legend()
+plt.show()
+
+
+
+
+
+
+
+
