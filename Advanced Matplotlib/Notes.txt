@@ -4,7 +4,6 @@ plt.plot(x,y)
 plt.ylabel('')
 plt.xlabel('')
 plt.title('')
-plt.grid()
 plt.show()
 plt.xlim(val,val)
 plt.ylim(val,val)
@@ -24,7 +23,8 @@ color --> hex or color ---> string
 markersize ---> single integer
 marker ---> 'D','o', '.' etc
 label ---> work only when this method called: plt.legend(loc='best')
-
+plt.grid()
+plt.text()
 
 - Scatter plot: For Bivariate and Multivariate (all numerical)
 plt.scatter(x,y)
@@ -69,9 +69,40 @@ plt.legend()
 plt.show()
 
 
+- histogram plot: For Univariate Analysis
+plt.hist(df['abc'],bins=[any]) --> bins parameter is optional!
+plt.hist(df['abc'],log=True) ---> if any outliers use log scale
 
+- pie chart: For Bivariate and Univariate
+plt.pie(df['abc'])
+parameters:
+autopct = '%0.1f%%'
+colors = []
+labels = [] or any column from df
+explode = [floats]
+shadow = True ---> For better styling
+no need for plt.legend()
 
+- subplots
+fig, ax = plt.subplots()
+parameters:
+figsize (accepts tuple)
+nrows and ncols for multiple plots at once
+sharex = True (if x-axis is same in all plots)
 
+to use
+ax.plot() or any plot same method like plt just ax
+and paramets like color, linestyle etc are same
+for setting labels texts etc use set_
+ax.set_ylabel() or set_xlabel() and ax.set_title()
+ax.set_xticks(old label)
+ax.set_xticklabels(new label) ---> paramter ----> rotation
+fig.show() just like plt.show()
+for label showing it's same plt.legend()
+
+if having 2D dimentions like 2 rows and 2 columns use 2D Array indexing to access each plot
+ax[0,0] for first one
+ax[0,1] for 2nd one and so on
 
 
 
