@@ -1,0 +1,48 @@
+# ==========================================
+# FULL WORKING EXAMPLE: SQLite + Python + SQL Magic
+# ==========================================
+
+# 1. Install Required Library (only once per environment)
+!pip install ipython-sql
+
+# 2. Import Libraries
+import sqlite3
+import pandas as pd
+
+# 3. Create a Sample DataFrame
+df = pd.DataFrame({
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eva'],
+    'Age': [25, 30, 35, 40, 28],
+    'City': ['New York', 'London', 'Paris', 'Berlin', 'Tokyo']
+})
+
+# 4. Create or Connect to a Local SQLite Database
+conn = sqlite3.connect('PeopleDatabase.db')
+
+# 5. Upload the DataFrame to the Database as a Table
+df.to_sql('people', conn, index=False, if_exists='replace')
+print("DataFrame uploaded successfully to SQLite database!")
+
+# 6. Load SQL Magic Extension
+%load_ext sql
+
+# 7. Connect SQL Magic to the SQLite Database
+%sql sqlite:///PeopleDatabase.db
+
+# 8. Verify That the Table Exists
+%%sql
+SELECT name FROM sqlite_master WHERE type='table';
+
+# 9. Run a SQL Query Using SQL Magic
+%%sql
+SELECT * FROM people WHERE Age > 28;
+
+# 10. Run a SQL Query Using Python and Return Results as a DataFrame
+query = "SELECT Name, City FROM people WHERE Age < 35"
+result_df = pd.read_sql(query, conn)
+print("\nQuery Results as Pandas DataFrame:")
+result_df.head()
+
+# 11. Close the Database Connection
+conn.close()
+print("Database connection closed.")
