@@ -1,0 +1,23 @@
+
+
+app.layout = html.Div([
+    html.H1()        → Page title
+    dcc.Dropdown()   → User chooses something
+    dcc.Graph()      → Shows a plot
+])
+
+@app.callback(
+    Output('graph', 'figure'),
+    Input('dropdown', 'value')
+)
+def update_graph(choice):
+    → filter data
+    → make plotly figure
+    → return fig
+
+
+dcc.Graph is a container for a Plotly figure.
+
+html.Div is a wrapper that organizes and spaces components.
+
+@app.callback connects inputs (user interactions) → outputs (updates).
